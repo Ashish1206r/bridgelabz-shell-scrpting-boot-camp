@@ -1,0 +1,330 @@
+
+1. Write a program that takes a command-line argument n and prints a table of the
+powers of 2 that are less than or equal to 2^n.
+
+n=$1
+echo "The table of powers of two upto 2^$n:"
+for (( i = 0; i <= n; i++ ))
+do
+    echo "2^$i = $((2**i))"
+done
+
+2. Write a program that takes a command-line argument n and prints the nth harmonic
+number. Harmonic Number is of the form
+n=$1
+result=0
+echo 'The Harmonic series is:'
+for (( i = 1; i <= n; i++ ))
+do
+    temp=$( echo "scale=2; 1 / $i " | bc -l )
+    result=$( echo "scale=2; $result + $temp" | bc -l)
+    echo -n "$result  "
+done
+echo 
+echo "The ${n}th harmonic number is $result"
+
+3. Write a program that takes a input and determines if the number is a prime.
+
+read -p "enter a number:" number
+max_factor=$(echo $number | awk '{printf "%d", sqrt($1)}')
+is_prime=1
+for (( factor = 2; factor <= max_factor; factor++ ))
+do
+    if (( number % factor == 0 ))
+    then
+        is_prime=0
+    break
+    fi
+done
+if(( is_prime ))
+then    
+    echo "$number is prime"
+else
+    echo "$number is not prime"
+fi
+
+4. Extend the program to take a range of number as input and output the Prime
+Numbers in that range.
+
+read -p "enter lower bound: " lower
+read -p "enter upper bound: " upper
+
+for (( number = lower; number <= upper; number++ ))
+do  
+    is_prime=1
+    max_factor=$(echo $number | awk '{printf "%d", sqrt($1)}')
+    for ((f = 2; f <= max_factor; f++))
+    do
+        if (( number % f == 0))
+        then
+        is_prime=0
+        break
+        fi
+    done
+    if((is_prime))
+    then    
+        echo "$number is prime"
+    else
+        echo "$number is not prime"
+    fi
+done
+5. Write a program that computes a factorial of a number taken as input.
+5 Factorial – 5! = 1 * 2 * 3 * 4 * 5
+
+read -p "enter a number:" number
+factorial=1
+for (( i = 1; i <= number; i++ ))
+do
+    (( factorial *= i ))
+done
+echo "The factorial of $number is $factorial"
+
+read -p "enter a number:" number
+factorial=1
+for (( i = number; i > 0; i--))
+do
+    (( factorial *= i ))
+done
+echo "The factorial of $number is $factorial"
+
+6. Write a program to compute Factors of a number N using prime factorization method.
+read -p "Enter a number: " N
+echo "The prime factors are"
+for(( p = 2; p * p <= N; ))
+do
+    if(( N % p == 0))
+    then
+        echo -n "$p "
+        ((N /= p))
+    else
+        ((p += 1))
+    fi
+done
+echo $N
+
+1. Write a program that takes a command-line argument n and prints a
+table of the powers of 2 that are less than or equal to 2^n till 256 is
+reached..
+
+n=$1
+result=1
+echo "The table of powers of 2 is: "
+while (( result < 256 ))
+do
+    result=$(( result * 2 ))
+    echo "$result"
+done
+
+n=$1
+result=1
+i=0
+while (( result < 256 ))
+do
+    result=$(( 2 ** i ))
+    echo "2^$i = $result"
+    ((i++))
+done
+
+2. Find the Magic Number
+a. Ask the user to think of a number n between 1 to 100
+b. Then check with the user if the number is less then n/2 or greater
+c. Repeat till the Magic Number is reached..
+
+echo "think of a number n between 1 and 100"
+lower=1
+upper=100
+guess=0
+while (( guess == 0))
+do
+    magic_number=$(( (lower + upper) / 2))
+    echo "Enter"
+    echo "      1 if n is less than $magic_number"
+    echo "      2 if n is equal to $magic_number"
+    echo "      3 if n is greather than $magic_number"
+    read option
+    if(( option == 1 ))
+    then
+        upper=$(( magic_number - 1 ))
+    elif (( option == 2 ))
+    then
+        guess=1
+        echo "your guessed number is $magic_number"
+    elif (( option == 3 ))
+    then
+        lower=$(( magic_number + 1 )) 
+    else
+        echo "please enter either 1 or 2 or 3"
+    fi
+done
+
+3. Extend the Flip Coin problem till either Heads or Tails wins 11 times.
+
+heads_count=0
+tails_count=0
+while (( heads_count != 11 && tails_count != 11))
+do
+    echo -n "......flipping.....it's"
+    toss=$(( RANDOM % 2 ))
+    if [ $toss -eq 0 ]
+    then
+    echo " Heads "
+    (( heads_count ++ ))
+    else
+    echo " Tails "
+    (( tails_count ++ ))
+    fi
+    echo "Head wins $heads_count times and Tail wins $tails_count times"
+done
+echo "Game Over!"
+
+4. Write a Program where a gambler starts with Rs 100 and places Re 1 bet
+until he/she goes broke i.e. no more money to gamble or reaches the
+goal of Rs 200. Keeps track of number of times won and number of bets
+made.
+
+money=100
+bet_amount=1
+bet_count=0
+won_count=0
+while(( money != 0 && money != 200 ))
+do
+    echo -n "The bet is "
+    bet=$(( RANDOM % 2 ))
+    if ((bet == 1))
+    then
+        echo "won"
+        (( money += bet_amount ))
+        (( won_count++))
+    else
+        echo "lost"
+        ((money -= bet_amount ))
+    fi
+    (( bet_count++ ))
+    
+done
+echo "The final money is $money"
+echo "No of bets made are $bet_count and no of times won are $won_count"
+
+1. Help user find degF or degC based on their Conversion Selection. Use
+Case Statement and ensure that the inputs are within the Freezing Point (
+0 °C / 32 °F ) and the Boiling Point of Water ( 100 °C / 212 °F )
+a. degF = (degC * 9/5) + 32
+b. degC = (degF – 32) * 5/9
+
+fahrenheit_to_celsius ()
+{
+    fahrenheit=$1
+    celsius=$(echo "$fahrenheit" | awk '{ printf "%.4f", ($1 - 32) * 5 / 9}')
+    #celsius=$(echo " scale = 4; ( $fahrenheit - 32 ) * 5 / 9 " | bc -l )
+    echo "$fahrenheit fahrenheit =  $celsius celsius" 
+}
+celsius_to_fahrenheit ()
+{
+    celsius=$1
+    fahrenheit=$(echo " scale = 4; ( $celsius * 9 / 5 ) + 32 " | bc -l )
+    echo " $celsius celsius =  $fahrenheit fahrenheit" 
+}
+echo "Select the option"
+echo "1.degF to degC"
+echo "2.degC to degF"
+read option
+case $option in
+    1)
+    read -p "Enter temperature in fahrenheit(with in fp and bp of water):" fh 
+    if (( fh > 32 && fh < 212))
+    then
+        fahrenheit_to_celsius $fh
+    else
+        echo "entered temperature is not within freezing point and boiling point of water"
+    fi
+    ;;
+    2)
+    read -p "Enter temperature in celsius(with in fp and bp of water):" cs 
+    if (( cs > 0 && cs < 100))
+    then
+        celsius_to_fahrenheit $cs
+    else
+        echo "entered temperature is not within freezing point and boiling point of water"
+    fi
+    ;;
+    *)
+    echo "please select either 1 or 2"
+    ;;
+esac
+
+2. Write a function to check if the two numbers are Palindromes
+
+is_palindrome ()
+{
+    number=$1
+    copy_of_number=$number
+    reverse_number=0
+    while (( number > 0 ))
+    do
+        remainder=$(( number % 10))
+        reverse_number=$(( reverse_number * 10 + remainder ))
+        (( number /= 10 ))
+
+    done
+    if(( reverse_number == copy_of_number))
+    then
+        echo "$copy_of_number is palindrome"
+    else
+        echo "$copy_of_number is not palindrome"
+    fi
+}
+
+read -p "Enter first number:" first_number
+is_palindrome $first_number
+
+
+read -p "Enter second number: " second_number
+is_palindrome $second_number
+
+3. Take a number from user and check if the number is a Prime then show
+that its palindrome is also prime
+a. Write function check if number is Prime
+b. Write function to get the Palindrome.
+c. Check if the Palindrome number is also prime
+
+is_prime ()
+{
+    local number=$1
+    max_factor=$(echo $number | awk '{printf "%d", sqrt($1)}')
+    prime=1
+    for ((i = 2; i <= max_factor; i++))
+    do
+        if (( number % i == 0))
+        then
+            prime=0
+            break
+        fi
+    done
+
+    if(( prime ))
+    then
+        echo "$number is prime"
+    else
+        echo "$number is not prime"
+    fi
+}
+get_reverse_number ()
+{
+    local number=$1
+    local reverse=0
+    while (( number > 0))
+    do
+        remainder=$(( number % 10 ))
+        reverse=$(( reverse * 10 + remainder ))
+        (( number /= 10 ))
+    done
+    echo "$reverse"
+}
+
+read -p "enter a number: " number
+is_prime $number
+
+reverse_number=$(get_reverse_number $number)
+echo "the reverse of $number is $reverse_number"
+
+is_prime $reverse_number
