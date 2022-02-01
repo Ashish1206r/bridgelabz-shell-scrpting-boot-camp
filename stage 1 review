@@ -1,1 +1,39 @@
+steps-
+1st change the directory to desktop
+> cd Desktop/
 
+create new directory stage1_review
+>mkdir -p stage1_review
+
+move to the stage1_review directory
+>cd stage1_review
+
+create 4 files as stated like one by one individually
+>mkdir -p add.java
+>mkdir -p sub.js
+>mkdir -p Multiply.py
+>mkdir -p Division.cs
+
+creating the shell script file for the logic execution as “day4.sh”
+>touch day4.sh
+
+open it with the help of notepad for writing the codes
+>notepad day4.sh
+
+NOTEPAD CODING TO SOLVE problem:
+
+for item in `ls`
+do
+   nameOfFile=`echo $item | awk -F. '{ print $1 }'`
+   subfile=`echo $item | awk -F. '{ print $2 }'`
+   if [ -d $nameOfFile ]
+   then
+       echo "** This Is Inside IF-Block ***"
+       rm -rf $nameOfFile
+   fi
+   mkdir -p $nameOfFile/$subfile
+   mv  $item $nameOfFile/$subfile
+done 
+
+RUN
+>bash day4.sh
