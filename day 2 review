@@ -1,0 +1,38 @@
+read -p "enter first number:" a
+read -p "enter second number:" b
+read -p "enter third number:" c
+
+l=$(( a + b * c ))
+m=$(( a * b + c ))
+n=$(( c + a / b ))
+o=$(( a % b + c ))
+echo "The results of the arithmetic operations are $l $m $n $o"
+
+declare -A dict
+dict[t]="$l"
+dict[u]="$m"
+dict[v]="$n"
+dict[w]="$o"
+echo "Dictionary Is : ${dict[@]}"
+
+
+declare -a results
+
+printArray() {
+	for v in ${results[@]}
+    	do
+       		echo $v
+    	done
+}
+indx=0
+for val in ${dict[@]}
+do
+	results[$indx]=$val
+	indx=$((indx+1))
+done
+
+echo "Sorted values in ascending order are :: "
+printArray | sort -n
+
+echo "Sorted values in descending order are :: "
+printArray | sort -n -r
